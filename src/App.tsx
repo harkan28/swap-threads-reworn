@@ -13,7 +13,7 @@ const App = () => (
     <TooltipProvider>
       <Toaster />
       <Sonner />
-      <BrowserRouter>
+      <BrowserRouter basename={import.meta.env.PROD ? '/swap-threads-reworn' : ''}>
         <Index />
       </BrowserRouter>
     </TooltipProvider>
