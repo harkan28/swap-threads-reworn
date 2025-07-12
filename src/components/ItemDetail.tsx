@@ -1,7 +1,7 @@
 
 import { useParams, Link } from "react-router-dom";
-import { useState, useContext } from "react";
-import { AuthContext } from "../pages/Index";
+import { useState } from "react";
+import { useAuth } from "../contexts/AuthContext";
 import Header from "./Header";
 import { ArrowLeft, Heart, Share2, Star, User, Clock, MapPin } from "lucide-react";
 import { toast } from "@/hooks/use-toast";
@@ -9,7 +9,7 @@ import { ScrollRevealText, ScrollRevealWords, ScrollRevealLetters, ScrollRevealS
 
 const ItemDetail = () => {
   const { id } = useParams();
-  const { user } = useContext(AuthContext);
+  const { user } = useAuth();
   const [currentImage, setCurrentImage] = useState(0);
   const [isFavorited, setIsFavorited] = useState(false);
 
