@@ -34,6 +34,8 @@ To enable GitHub Pages for your repository:
 Once deployed, your website will be available at:
 **https://harkan28.github.io/swap-threads-reworn/**
 
+🎉 **Status: DEPLOYED AND LIVE** - Last updated: July 12, 2025
+
 ### 🔄 Deployment Process
 
 1. **Push changes** to the main branch
