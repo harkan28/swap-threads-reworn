@@ -12,7 +12,7 @@ import AdminPanel from "../components/AdminPanel";
 // Simple auth context for demo purposes
 export const AuthContext = React.createContext({
   user: null,
-  login: () => {},
+  login: (userData?: any) => {},
   logout: () => {},
   isAdmin: false
 });

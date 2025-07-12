@@ -49,7 +49,7 @@ const AddItem = () => {
     const newImages = files.map(file => ({
       id: Date.now() + Math.random(),
       file,
-      url: URL.createObjectURL(file)
+      url: URL.createObjectURL(file as Blob)
     }));
 
     setImages(prev => [...prev, ...newImages]);
