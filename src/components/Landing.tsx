@@ -90,7 +90,7 @@ const Landing = () => {
               >
                 <Link to="/register">
                   <MorphingButton className="group px-8 py-4 bg-white text-black rounded-none font-medium hover:bg-gray-100 transition-all duration-300 flex items-center">
-                    <span>Start Your Journey</span>
+                    <span>Start Swapping</span>
                     <ArrowRight className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform" />
                   </MorphingButton>
                 </Link>
@@ -102,9 +102,22 @@ const Landing = () => {
                   visible: { opacity: 1, y: 0 }
                 }}
               >
-                <Link to="/login">
+                <Link to="/dashboard">
                   <MorphingButton className="px-8 py-4 border border-white/30 rounded-none font-medium hover:bg-white/5 transition-all duration-300">
-                    Explore Collection
+                    Browse Items
+                  </MorphingButton>
+                </Link>
+              </motion.div>
+
+              <motion.div
+                variants={{
+                  hidden: { opacity: 0, y: 50 },
+                  visible: { opacity: 1, y: 0 }
+                }}
+              >
+                <Link to="/add-item">
+                  <MorphingButton className="px-8 py-4 border border-white/30 rounded-none font-medium hover:bg-white/5 transition-all duration-300">
+                    List an Item
                   </MorphingButton>
                 </Link>
               </motion.div>
@@ -151,7 +164,7 @@ const Landing = () => {
             <StaggeredContainer className="grid grid-cols-1 md:grid-cols-3 gap-8">
               {featuredItems.map((item, index) => (
                 <RotateCard key={item.id} delay={index * 0.2}>
-                  <div className="group cursor-pointer">
+                  <Link to={`/item/${item.id}`} className="group cursor-pointer block">
                     <div className="relative overflow-hidden bg-white/5 border border-white/10 hover:border-white/30 transition-all duration-500">
                       <img 
                         src={item.image} 
@@ -168,7 +181,7 @@ const Landing = () => {
                         <Star className="h-4 w-4 opacity-0 group-hover:opacity-100 transition-opacity" />
                       </div>
                     </div>
-                  </div>
+                  </Link>
                 </RotateCard>
               ))}
             </StaggeredContainer>
