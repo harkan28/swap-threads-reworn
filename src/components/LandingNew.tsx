@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 import { ArrowRight, Recycle, Heart, Users, Star, TrendingUp } from "lucide-react";
 import { motion } from "framer-motion";
 import Header from "./Header";
-import { FadeUpText, TypewriterText, SplitText, ScaleText, ScrollRevealText, ScrollRevealWords, ScrollRevealLetters, ScrollRevealSlide, ScrollRevealScale } from "./animations/TextEffects";
+import { FadeUpText, TypewriterText, SplitText, ScaleText } from "./animations/TextEffects";
 import { StaggeredContainer, MorphingButton, RotateCard } from "./animations/UIComponents";
 import { PageTransition } from "./animations/PageTransitions";
 
@@ -57,29 +57,29 @@ const Landing = () => {
           </motion.div>
           
           <div className="text-center z-10 max-w-5xl mx-auto">
-            <ScrollRevealScale delay={0.2} className="inline-block px-6 py-2 border border-white/20 rounded-full text-sm mb-8 backdrop-blur-sm">
+            <FadeUpText delay={0.2} className="inline-block px-6 py-2 border border-white/20 rounded-full text-sm mb-8 backdrop-blur-sm">
               ✨ Sustainable Fashion Revolution 2025
-            </ScrollRevealScale>
+            </FadeUpText>
             
             <div className="mb-8">
-              <ScrollRevealLetters 
+              <SplitText 
                 delay={0.5}
                 className="text-6xl md:text-8xl font-light mb-4 leading-none tracking-tight"
               >
                 REWEAR
-              </ScrollRevealLetters>
-              <ScrollRevealWords 
+              </SplitText>
+              <TypewriterText 
                 delay={1.5}
                 className="text-lg md:text-xl text-gray-400 font-light tracking-wider"
               >
                 Where fashion meets sustainability
-              </ScrollRevealWords>
+              </TypewriterText>
             </div>
 
-            <ScrollRevealSlide delay={2} direction="up" className="text-xl text-gray-300 mb-12 max-w-2xl mx-auto font-light leading-relaxed">
+            <FadeUpText delay={2} className="text-xl text-gray-300 mb-12 max-w-2xl mx-auto font-light leading-relaxed">
               Transform your wardrobe while protecting our planet. 
               Join thousands who swap, share, and sustain through fashion.
-            </ScrollRevealSlide>
+            </FadeUpText>
             
             <StaggeredContainer className="flex flex-col sm:flex-row gap-6 justify-center">
               <motion.div
@@ -131,10 +131,10 @@ const Landing = () => {
                   >
                     <stat.icon className="h-8 w-8" />
                   </motion.div>
-                  <ScrollRevealScale delay={0.5 + index * 0.1} className="text-3xl font-light mb-2">
+                  <ScaleText delay={0.5 + index * 0.1} className="text-3xl font-light mb-2">
                     {stat.value}
-                  </ScrollRevealScale>
-                  <ScrollRevealText delay={0.7 + index * 0.1} className="text-gray-400 font-light">{stat.label}</ScrollRevealText>
+                  </ScaleText>
+                  <p className="text-gray-400 font-light">{stat.label}</p>
                 </motion.div>
               ))}
             </StaggeredContainer>
@@ -144,9 +144,9 @@ const Landing = () => {
         {/* Featured Items */}
         <section className="py-20 px-4 border-t border-white/10">
           <div className="max-w-6xl mx-auto">
-            <ScrollRevealWords className="text-4xl font-light text-center mb-16 tracking-wide">
+            <FadeUpText className="text-4xl font-light text-center mb-16 tracking-wide">
               Featured Collection
-            </ScrollRevealWords>
+            </FadeUpText>
             
             <StaggeredContainer className="grid grid-cols-1 md:grid-cols-3 gap-8">
               {featuredItems.map((item, index) => (
@@ -178,12 +178,12 @@ const Landing = () => {
         {/* CTA Section */}
         <section className="py-20 px-4 border-t border-white/10">
           <div className="max-w-4xl mx-auto text-center">
-            <ScrollRevealLetters delay={0.2} className="text-4xl md:text-5xl font-light mb-8 leading-tight">
+            <FadeUpText delay={0.2} className="text-4xl md:text-5xl font-light mb-8 leading-tight">
               Ready to make a difference?
-            </ScrollRevealLetters>
-            <ScrollRevealSlide delay={0.4} direction="up" className="text-gray-400 mb-12 text-lg font-light">
+            </FadeUpText>
+            <FadeUpText delay={0.4} className="text-gray-400 mb-12 text-lg font-light">
               Join our community and start your sustainable fashion journey today.
-            </ScrollRevealSlide>
+            </FadeUpText>
             <Link to="/register">
               <MorphingButton className="px-12 py-4 bg-white text-black rounded-none font-medium hover:bg-gray-100 transition-all duration-300 inline-flex items-center">
                 <span>Get Started</span>

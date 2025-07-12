@@ -5,11 +5,46 @@ import { AuthContext } from "../pages/Index";
 import Header from "./Header";
 import { ArrowLeft, Heart, Share2, Star, User, Clock, MapPin } from "lucide-react";
 import { toast } from "@/hooks/use-toast";
+import { ScrollRevealText, ScrollRevealWords, ScrollRevealLetters, ScrollRevealSlide, ScrollRevealScale } from "./animations/TextEffects";
 
 const ItemDetail = () => {
   const { id } = useParams();
   const { user } = useContext(AuthContext);
   const [currentImage, setCurrentImage] = useState(0);
+  const [isFavorited, setIsFavorited] = useState(false);
+
+  const handleFavorite = () => {
+    if (!user) {
+      toast({
+        title: "Login Required",
+        description: "Please login to add items to favorites",
+        variant: "destructive"
+      });
+      return;
+    }
+    
+    setIsFavorited(!isFavorited);
+    toast({
+      title: isFavorited ? "Removed from Favorites" : "Added to Favorites",
+      description: isFavorited ? "Item removed from your favorites" : "Item added to your favorites",
+    });
+  };
+
+  const handleShare = () => {
+    if (navigator.share) {
+      navigator.share({
+        title: item.title,
+        text: `Check out this ${item.category} on ReWear!`,
+        url: window.location.href,
+      });
+    } else {
+      navigator.clipboard.writeText(window.location.href);
+      toast({
+        title: "Link Copied",
+        description: "Item link copied to clipboard",
+      });
+    }
+  };
 
   // Mock item data
   const item = {
@@ -123,20 +158,30 @@ const ItemDetail = () => {
             <div>
               <div className="flex items-start justify-between mb-6">
                 <div>
-                  <h1 className="text-3xl font-bold mb-2">{item.title}</h1>
+                  <ScrollRevealLetters className="text-3xl font-bold mb-2">{item.title}</ScrollRevealLetters>
                   <div className="flex items-center space-x-4 text-gray-400">
-                    <span>{item.category}</span>
+                    <ScrollRevealText>{item.category}</ScrollRevealText>
                     <span>•</span>
-                    <span>Size {item.size}</span>
+                    <ScrollRevealText>{`Size ${item.size}`}</ScrollRevealText>
                     <span>•</span>
-                    <span>{item.condition}</span>
+                    <ScrollRevealText>{item.condition}</ScrollRevealText>
                   </div>
                 </div>
                 <div className="flex items-center space-x-2">
-                  <button className="p-2 bg-gray-800 rounded-lg hover:bg-gray-700 transition-colors">
-                    <Heart className="h-5 w-5" />
+                  <button 
+                    onClick={handleFavorite}
+                    className={`p-2 rounded-lg transition-colors ${
+                      isFavorited 
+                        ? 'bg-red-600 hover:bg-red-700' 
+                        : 'bg-gray-800 hover:bg-gray-700'
+                    }`}
+                  >
+                    <Heart className={`h-5 w-5 ${isFavorited ? 'fill-current' : ''}`} />
                   </button>
-                  <button className="p-2 bg-gray-800 rounded-lg hover:bg-gray-700 transition-colors">
+                  <button 
+                    onClick={handleShare}
+                    className="p-2 bg-gray-800 rounded-lg hover:bg-gray-700 transition-colors"
+                  >
                     <Share2 className="h-5 w-5" />
                   </button>
                 </div>
@@ -145,10 +190,10 @@ const ItemDetail = () => {
               {/* Points Display */}
               <div className="bg-gradient-to-r from-purple-900/20 to-blue-900/20 rounded-xl p-6 mb-6 border border-white/10">
                 <div className="text-center">
-                  <div className="text-3xl font-bold text-transparent bg-gradient-to-r from-purple-400 to-blue-400 bg-clip-text mb-2">
-                    {item.points} Points
-                  </div>
-                  <p className="text-gray-400">Required to redeem this item</p>
+                  <ScrollRevealScale className="text-3xl font-bold text-transparent bg-gradient-to-r from-purple-400 to-blue-400 bg-clip-text mb-2">
+                    {`${item.points} Points`}
+                  </ScrollRevealScale>
+                  <ScrollRevealText className="text-gray-400">Required to redeem this item</ScrollRevealText>
                 </div>
               </div>
 
@@ -160,7 +205,7 @@ const ItemDetail = () => {
                   </div>
                   <div className="flex-1">
                     <div className="flex items-center space-x-2 mb-1">
-                      <h3 className="font-semibold">{item.owner.name}</h3>
+                      <ScrollRevealText className="font-semibold">{item.owner.name}</ScrollRevealText>
                       <div className="flex items-center space-x-1">
                         <Star className="h-4 w-4 text-yellow-400 fill-current" />
                         <span className="text-sm text-gray-400">{item.owner.rating}</span>

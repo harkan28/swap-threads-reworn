@@ -3,7 +3,6 @@ import { useContext } from "react";
 import { motion } from "framer-motion";
 import { AuthContext } from "../pages/Index";
 import { User, LogOut } from "lucide-react";
-import { ScrollRevealText } from "./animations/TextEffects";
 
 const Header = () => {
   const { user, logout, isAdmin } = useContext(AuthContext);
@@ -21,7 +20,7 @@ const Header = () => {
           transition={{ duration: 0.2 }}
         >
           <Link to="/" className="text-2xl font-light tracking-wider">
-            <ScrollRevealText>REWEAR</ScrollRevealText>
+            REWEAR
           </Link>
         </motion.div>
         

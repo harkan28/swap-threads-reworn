@@ -5,7 +5,7 @@ import { AuthContext } from "../pages/Index";
 import { Mail, Lock, Eye, EyeOff, ArrowRight } from "lucide-react";
 import { toast } from "@/hooks/use-toast";
 import { PageTransition } from "./animations/PageTransitions";
-import { FadeUpText, TypewriterText, ScrollRevealText, ScrollRevealWords, ScrollRevealLetters, ScrollRevealSlide, ScrollRevealScale } from "./animations/TextEffects";
+import { FadeUpText, TypewriterText } from "./animations/TextEffects";
 import { MorphingButton } from "./animations/UIComponents";
 
 const Login = () => {
@@ -95,15 +95,15 @@ const Login = () => {
         >
           {/* Header */}
           <motion.div variants={itemVariants} className="text-center mb-12">
-            <ScrollRevealLetters delay={0.2} className="text-4xl font-light tracking-wider mb-4">
+            <FadeUpText delay={0.2} className="text-4xl font-light tracking-wider mb-4">
               Welcome Back
-            </ScrollRevealLetters>
-            <ScrollRevealWords 
+            </FadeUpText>
+            <TypewriterText 
               delay={1}
               className="text-gray-400 font-light"
             >
               Continue your sustainable journey
-            </ScrollRevealWords>
+            </TypewriterText>
           </motion.div>
 
           {/* Form */}
@@ -181,10 +181,7 @@ const Login = () => {
 
             {/* Submit Button */}
             <motion.div variants={itemVariants} className="pt-4">
-              <MorphingButton 
-                type="submit"
-                className="w-full py-3 bg-white text-black font-medium hover:bg-gray-100 transition-all duration-300 flex items-center justify-center"
-              >
+              <MorphingButton className="w-full py-3 bg-white text-black font-medium hover:bg-gray-100 transition-all duration-300 flex items-center justify-center">
                 <span>Sign In</span>
                 <ArrowRight className="ml-2 h-4 w-4" />
               </MorphingButton>

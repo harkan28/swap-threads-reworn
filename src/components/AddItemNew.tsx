@@ -6,7 +6,7 @@ import Header from "./Header";
 import { Upload, X, Plus, Camera, Tag, Shirt } from "lucide-react";
 import { toast } from "@/hooks/use-toast";
 import { PageTransition } from "./animations/PageTransitions";
-import { FadeUpText, TypewriterText, ScrollRevealText, ScrollRevealWords, ScrollRevealLetters, ScrollRevealSlide, ScrollRevealScale } from "./animations/TextEffects";
+import { FadeUpText, TypewriterText } from "./animations/TextEffects";
 import { MorphingButton, StaggeredContainer } from "./animations/UIComponents";
 import { ScrollTriggered } from "./animations/ScrollTriggers";
 
@@ -143,16 +143,16 @@ const AddItem = () => {
                 whileHover={{ scale: 1.05 }}
               >
                 <Shirt className="h-8 w-8 mr-3" />
-                <ScrollRevealLetters delay={0.2} className="text-5xl font-light tracking-wider">
+                <FadeUpText delay={0.2} className="text-5xl font-light tracking-wider">
                   List Your Item
-                </ScrollRevealLetters>
+                </FadeUpText>
               </motion.div>
-              <ScrollRevealWords 
+              <TypewriterText 
                 delay={1}
                 className="text-gray-400 text-lg font-light"
               >
                 Share your fashion pieces with the community
-              </ScrollRevealWords>
+              </TypewriterText>
             </ScrollTriggered>
 
             {/* Form */}
@@ -223,12 +223,10 @@ const AddItem = () => {
               <ScrollTriggered animation="slideRight">
                 <StaggeredContainer className="space-y-6">
                   <motion.div variants={itemVariants}>
-                    <div className="text-xl font-light mb-4 flex items-center">
+                    <h3 className="text-xl font-light mb-4 flex items-center">
                       <Tag className="h-5 w-5 mr-2" />
-                      <ScrollRevealText>
-                        Basic Information
-                      </ScrollRevealText>
-                    </div>
+                      Basic Information
+                    </h3>
                   </motion.div>
 
                   <motion.div variants={itemVariants} className="space-y-2">

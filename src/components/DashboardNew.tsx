@@ -4,25 +4,13 @@ import { motion, useScroll, useTransform, useInView } from "framer-motion";
 import { AuthContext } from "../pages/Index";
 import Header from "./Header";
 import { Plus, Search, Filter, Star, Clock, Check, TrendingUp, Heart, Recycle } from "lucide-react";
-import { toast } from "@/hooks/use-toast";
 import { PageTransition } from "./animations/PageTransitions";
-import { FadeUpText, ScaleText, ScrollRevealText, ScrollRevealWords, ScrollRevealLetters, ScrollRevealSlide, ScrollRevealScale } from "./animations/TextEffects";
+import { FadeUpText, ScaleText } from "./animations/TextEffects";
 import { FloatingCard, StaggeredContainer, MorphingButton, RotateCard } from "./animations/UIComponents";
 
 const Dashboard = () => {
   const { user } = useContext(AuthContext);
   const [activeTab, setActiveTab] = useState("browse");
-  const [searchTerm, setSearchTerm] = useState("");
-  const [filterOpen, setFilterOpen] = useState(false);
-  const [itemsToShow, setItemsToShow] = useState(6);
-
-  const handleLoadMore = () => {
-    setItemsToShow(prev => prev + 6);
-    toast({
-      title: "Loading More Items",
-      description: "Showing more items...",
-    });
-  };
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-100px" });
   
@@ -117,15 +105,6 @@ const Dashboard = () => {
     }
   ];
 
-  // Filter items based on search term
-  const allFilteredItems = (activeTab === "browse" ? mockItems : myListings).filter(item =>
-    item.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    item.category.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    (activeTab === "browse" && 'owner' in item && item.owner.toLowerCase().includes(searchTerm.toLowerCase()))
-  );
-  
-  const filteredItems = allFilteredItems.slice(0, itemsToShow);
-
   const stats = [
     { icon: TrendingUp, label: "Points Earned", value: user?.points || 50 },
     { icon: Heart, label: "Items Saved", value: 12 },
@@ -161,12 +140,12 @@ const Dashboard = () => {
               transition={{ duration: 0.8 }}
               className="text-center mb-16"
             >
-              <ScrollRevealLetters delay={0.2} className="text-5xl font-light mb-4 tracking-tight">
+              <FadeUpText delay={0.2} className="text-5xl font-light mb-4 tracking-tight">
                 {`Welcome back, ${user?.name}`}
-              </ScrollRevealLetters>
-              <ScrollRevealSlide delay={0.4} direction="up" className="text-gray-400 text-lg font-light">
+              </FadeUpText>
+              <FadeUpText delay={0.4} className="text-gray-400 text-lg font-light">
                 Continue your sustainable fashion journey
-              </ScrollRevealSlide>
+              </FadeUpText>
             </motion.div>
 
             {/* Stats Cards */}
@@ -210,17 +189,12 @@ const Dashboard = () => {
                 <motion.input
                   type="text"
                   placeholder="Search items..."
-                  value={searchTerm}
-                  onChange={(e) => setSearchTerm(e.target.value)}
                   className="w-full pl-10 pr-4 py-3 bg-white/5 border border-white/20 focus:border-white/40 transition-all duration-300 font-light"
                   whileFocus={{ scale: 1.02 }}
                 />
               </div>
               <div className="flex gap-4">
-                <MorphingButton 
-                  onClick={() => setFilterOpen(!filterOpen)}
-                  className="px-4 py-2 border border-white/30 hover:border-white/60 transition-colors font-light flex items-center"
-                >
+                <MorphingButton className="px-4 py-2 border border-white/30 hover:border-white/60 transition-colors font-light flex items-center">
                   <Filter className="h-4 w-4 mr-2" />
                   Filter
                 </MorphingButton>
@@ -267,7 +241,7 @@ const Dashboard = () => {
         <section ref={ref} className="py-8 px-4">
           <div className="max-w-7xl mx-auto">
             <StaggeredContainer className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {filteredItems.map((item, index) => (
+              {(activeTab === "browse" ? mockItems : myListings).map((item, index) => (
                 <RotateCard key={item.id} delay={index * 0.1}>
                   <Link to={`/item/${item.id}`}>
                     <div className="group cursor-pointer">
@@ -293,16 +267,12 @@ const Dashboard = () => {
                           <span>{item.condition}</span>
                         </div>
                         {activeTab === "browse" ? (
-                          'owner' in item ? (
-                            <p className="text-sm text-gray-400 font-light">by {item.owner}</p>
-                          ) : null
+                          <p className="text-sm text-gray-400 font-light">by {item.owner}</p>
                         ) : (
-                          'views' in item && 'interests' in item ? (
-                            <div className="flex justify-between items-center text-sm text-gray-400">
-                              <span>{item.views} views</span>
-                              <span>{item.interests} interested</span>
-                            </div>
-                          ) : null
+                          <div className="flex justify-between items-center text-sm text-gray-400">
+                            <span>{item.views} views</span>
+                            <span>{item.interests} interested</span>
+                          </div>
                         )}
                         <motion.div
                           className="flex items-center justify-between mt-3"
@@ -325,21 +295,16 @@ const Dashboard = () => {
             </StaggeredContainer>
 
             {/* Load More */}
-            {filteredItems.length < allFilteredItems.length && (
-              <motion.div
-                className="text-center mt-12"
-                initial={{ opacity: 0 }}
-                animate={isInView ? { opacity: 1 } : { opacity: 0 }}
-                transition={{ delay: 1 }}
-              >
-                <MorphingButton 
-                  onClick={handleLoadMore}
-                  className="px-8 py-3 border border-white/30 hover:border-white/60 transition-colors font-light"
-                >
-                  Load More Items
-                </MorphingButton>
-              </motion.div>
-            )}
+            <motion.div
+              className="text-center mt-12"
+              initial={{ opacity: 0 }}
+              animate={isInView ? { opacity: 1 } : { opacity: 0 }}
+              transition={{ delay: 1 }}
+            >
+              <MorphingButton className="px-8 py-3 border border-white/30 hover:border-white/60 transition-colors font-light">
+                Load More Items
+              </MorphingButton>
+            </motion.div>
           </div>
         </section>
       </div>

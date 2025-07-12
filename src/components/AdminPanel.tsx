@@ -2,6 +2,8 @@
 import { useState } from "react";
 import Header from "./Header";
 import { Users, Package, ShoppingCart, TrendingUp, Check, X, Eye } from "lucide-react";
+import { toast } from "@/hooks/use-toast";
+import { ScrollRevealText, ScrollRevealWords, ScrollRevealLetters, ScrollRevealSlide, ScrollRevealScale } from "./animations/TextEffects";
 
 const AdminPanel = () => {
   const [activeTab, setActiveTab] = useState("overview");
@@ -13,7 +15,7 @@ const AdminPanel = () => {
     completedSwaps: 456
   };
 
-  const pendingItems = [
+  const [pendingItems, setPendingItems] = useState([
     {
       id: 1,
       title: "Vintage Band T-Shirt",
@@ -30,7 +32,7 @@ const AdminPanel = () => {
       submittedDate: "1 day ago",
       status: "pending"
     }
-  ];
+  ]);
 
   const recentUsers = [
     {
@@ -51,12 +53,35 @@ const AdminPanel = () => {
     }
   ];
 
+  const handleViewItemDetails = (itemId) => {
+    toast({
+      title: "Item Details",
+      description: `Viewing details for item ID: ${itemId}`,
+    });
+  };
+
+  const handleViewUserDetails = (userId) => {
+    toast({
+      title: "User Details",
+      description: `Viewing details for user ID: ${userId}`,
+    });
+  };
+
   const handleApproveItem = (itemId) => {
-    console.log("Approving item:", itemId);
+    setPendingItems(prev => prev.filter(item => item.id !== itemId));
+    toast({
+      title: "Item Approved",
+      description: "The item has been approved and is now live on the platform.",
+    });
   };
 
   const handleRejectItem = (itemId) => {
-    console.log("Rejecting item:", itemId);
+    setPendingItems(prev => prev.filter(item => item.id !== itemId));
+    toast({
+      title: "Item Rejected",
+      description: "The item has been rejected and removed from the queue.",
+      variant: "destructive"
+    });
   };
 
   return (
@@ -66,8 +91,8 @@ const AdminPanel = () => {
       <div className="pt-20 px-4">
         <div className="max-w-7xl mx-auto">
           <div className="mb-8">
-            <h1 className="text-3xl font-bold mb-2">Admin Dashboard</h1>
-            <p className="text-gray-400">Manage users, items, and platform activity</p>
+            <ScrollRevealLetters className="text-3xl font-bold mb-2">Admin Dashboard</ScrollRevealLetters>
+            <ScrollRevealWords className="text-gray-400">Manage users, items, and platform activity</ScrollRevealWords>
           </div>
 
           {/* Stats Overview */}
@@ -75,8 +100,8 @@ const AdminPanel = () => {
             <div className="bg-gradient-to-br from-blue-900/20 to-blue-700/20 rounded-xl p-6 border border-blue-500/20">
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="text-blue-400 text-sm font-medium">Total Users</p>
-                  <p className="text-2xl font-bold">{stats.totalUsers}</p>
+                  <ScrollRevealText className="text-blue-400 text-sm font-medium">Total Users</ScrollRevealText>
+                  <ScrollRevealScale className="text-2xl font-bold">{stats.totalUsers.toString()}</ScrollRevealScale>
                 </div>
                 <Users className="h-8 w-8 text-blue-400" />
               </div>
@@ -85,8 +110,8 @@ const AdminPanel = () => {
             <div className="bg-gradient-to-br from-green-900/20 to-green-700/20 rounded-xl p-6 border border-green-500/20">
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="text-green-400 text-sm font-medium">Active Listings</p>
-                  <p className="text-2xl font-bold">{stats.activeListings}</p>
+                  <ScrollRevealText className="text-green-400 text-sm font-medium">Active Listings</ScrollRevealText>
+                  <ScrollRevealScale className="text-2xl font-bold">{stats.activeListings.toString()}</ScrollRevealScale>
                 </div>
                 <Package className="h-8 w-8 text-green-400" />
               </div>
@@ -95,8 +120,8 @@ const AdminPanel = () => {
             <div className="bg-gradient-to-br from-yellow-900/20 to-yellow-700/20 rounded-xl p-6 border border-yellow-500/20">
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="text-yellow-400 text-sm font-medium">Pending Swaps</p>
-                  <p className="text-2xl font-bold">{stats.pendingSwaps}</p>
+                  <ScrollRevealText className="text-yellow-400 text-sm font-medium">Pending Swaps</ScrollRevealText>
+                  <ScrollRevealScale className="text-2xl font-bold">{stats.pendingSwaps.toString()}</ScrollRevealScale>
                 </div>
                 <ShoppingCart className="h-8 w-8 text-yellow-400" />
               </div>
@@ -105,8 +130,8 @@ const AdminPanel = () => {
             <div className="bg-gradient-to-br from-purple-900/20 to-purple-700/20 rounded-xl p-6 border border-purple-500/20">
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="text-purple-400 text-sm font-medium">Completed Swaps</p>
-                  <p className="text-2xl font-bold">{stats.completedSwaps}</p>
+                  <ScrollRevealText className="text-purple-400 text-sm font-medium">Completed Swaps</ScrollRevealText>
+                  <ScrollRevealScale className="text-2xl font-bold">{stats.completedSwaps.toString()}</ScrollRevealScale>
                 </div>
                 <TrendingUp className="h-8 w-8 text-purple-400" />
               </div>
@@ -176,7 +201,10 @@ const AdminPanel = () => {
                       </div>
                       
                       <div className="flex items-center space-x-3">
-                        <button className="p-2 bg-blue-600 rounded-lg hover:bg-blue-700 transition-colors">
+                        <button 
+                          onClick={() => handleViewItemDetails(item.id)}
+                          className="p-2 bg-blue-600 rounded-lg hover:bg-blue-700 transition-colors"
+                        >
                           <Eye className="h-5 w-5" />
                         </button>
                         <button 
@@ -238,7 +266,10 @@ const AdminPanel = () => {
                             </span>
                           </td>
                           <td className="px-6 py-4">
-                            <button className="text-blue-400 hover:text-blue-300 text-sm">
+                            <button 
+                              onClick={() => handleViewUserDetails(user.id)}
+                              className="text-blue-400 hover:text-blue-300 text-sm"
+                            >
                               View Details
                             </button>
                           </td>

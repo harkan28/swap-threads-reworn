@@ -1,9 +1,10 @@
+
 import { Link } from "react-router-dom";
 import { useContext } from "react";
 import { motion } from "framer-motion";
 import { AuthContext } from "../pages/Index";
-import { User, LogOut } from "lucide-react";
-import { ScrollRevealText } from "./animations/TextEffects";
+import { User, ShoppingBag, LogOut, Menu } from "lucide-react";
+import { SlideInText } from "./animations/TextEffects";
 
 const Header = () => {
   const { user, logout, isAdmin } = useContext(AuthContext);
@@ -21,7 +22,7 @@ const Header = () => {
           transition={{ duration: 0.2 }}
         >
           <Link to="/" className="text-2xl font-light tracking-wider">
-            <ScrollRevealText>REWEAR</ScrollRevealText>
+            REWEAR
           </Link>
         </motion.div>
         
@@ -43,7 +44,7 @@ const Header = () => {
               >
                 {item.label}
                 <motion.div
-                  className="absolute bottom-0 left-0 h-px bg-white origin-left w-full"
+                  className="absolute bottom-0 left-0 h-px bg-white origin-left"
                   initial={{ scaleX: 0 }}
                   whileHover={{ scaleX: 1 }}
                   transition={{ duration: 0.3 }}
@@ -118,6 +119,22 @@ const Header = () => {
         </div>
       </div>
     </motion.header>
+  );
+};
+
+export default Header;
+              </Link>
+              <Link 
+                to="/register" 
+                className="bg-white text-black px-4 py-2 rounded-full font-semibold hover:bg-gray-200 transition-colors"
+              >
+                Sign up
+              </Link>
+            </>
+          )}
+        </div>
+      </div>
+    </header>
   );
 };
 
